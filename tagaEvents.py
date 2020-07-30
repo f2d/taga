@@ -53,9 +53,8 @@ def import_events(client, prefix, commands, server_id, channel_id, role_id):
 				await context.send('Нет такой роли с id={}!'.format(role_id))
 				logging.error('No role with id={}'.format(role_id))
 		else:
-			logging.error('Server or channel does not match!\n{}/{}\n{}/{}'.format(
-				context.message.guild.id
-			,	server_id
-			,	context.message.channel.id
-			,	channel_id
-			))
+			logging.error('\n'.join([
+				'Server or channel does not match!'
+			,	'Server configured: %s, context: %s' % (server_id, context.message.guild.id)
+			,	'Channel configured: %s, context: %s' % (channel_id, context.message.channel.id)
+			]))
