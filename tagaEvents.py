@@ -17,7 +17,12 @@ def import_events(client, prefix, commands, server_id, channel_id, role_id):
 		except Exception:
 			num = 1
 
-		logging.info('Woof x %s from message "%r".' % (num, context.message))
+		logging.info(
+			'Woof x {num} from message "{msg!r}".'.format(
+				num=num
+			,	msg=context.message
+			)
+		)
 
 		await context.send('Woof!' * num)
 
@@ -33,28 +38,51 @@ def import_events(client, prefix, commands, server_id, channel_id, role_id):
 			if role_exists:
 				if not user_has_role:
 					await context.message.author.add_roles(role_to_add)
-					await context.send('Я тебя запомнила, {}'.format(
-						context.message.author.mention
-					))
 
-					logging.info('User id={} was given specified role.'.format(
-						context.message.author.id
-					))
+					await context.send(
+						'Я тебя запомнила, {}'.format(
+							context.message.author.mention
+						)
+					)
+
+					logging.info(
+						'User id={} was given specified role.'.format(
+							context.message.author.id
+						)
+					)
 				else:
-					await context.send('Ты уже был отмечен, {}'.format(
-						context.message.author.mention
-					))
+					await context.send(
+						'Ты уже был отмечен, {}'.format(
+							context.message.author.mention
+						)
+					)
 
-					logging.warning('User id={} has been already given role id={}'.format(
-						context.message.author.id
-					,	role_id
-					))
+					logging.warning(
+						'User id={} has been already given role id={}'.format(
+							context.message.author.id
+						,	role_id
+						)
+					)
 			else:
-				await context.send('Нет такой роли с id={}!'.format(role_id))
-				logging.error('No role with id={}'.format(role_id))
+				await context.send(
+					'Нет такой роли с id={}!'.format(role_id)
+				)
+
+				logging.error(
+					'No role with id={}'.format(role_id)
+				)
 		else:
-			logging.error('\n'.join([
-				'Server or channel does not match!'
-			,	'Server configured: %s, context: %s' % (server_id, context.message.guild.id)
-			,	'Channel configured: %s, context: %s' % (channel_id, context.message.channel.id)
-			]))
+			logging.error(
+				'\n'.join(
+					[
+						'Server or channel does not match!'
+					,	'Server configured: {cfg_serv_id}, context: {msg_serv_id}'
+					,	'Channel configured: {cfg_chan_id}, context: {msg_chan_id}'
+					]
+				).format(
+					cfg_serv_id=server_id
+				,	msg_serv_id=context.message.guild.id
+				,	cfg_chan_id=channel_id
+				,	msg_chan_id=context.message.channel.id
+				)
+			)

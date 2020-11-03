@@ -16,13 +16,17 @@ class Taga:
 		self.channel_id	= int(settings['channel_id'])
 		self.role_id	= int(settings['role_id'])
 
-		logging.info('\n'.join([
-			'Logging in with token %s' % self.token
-		,	'with server_id %s' % self.channel_id
-		,	'with role_id %s' % self.role_id
-		,	'with prefix %s' % self.prefix
-		,	'and commands %s' % self.commands
-		]))
+		logging.info(
+			'\n'.join(
+				[
+					'Logging in with token {self.token}'
+				,	'with server_id {self.channel_id}'
+				,	'with role_id {self.role_id}'
+				,	'with prefix {self.prefix}'
+				,	'and commands {self.commands}'
+				]
+			).format(self=self)
+		)
 
 		self.client = Bot(self.prefix)
 
