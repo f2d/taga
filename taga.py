@@ -19,11 +19,12 @@ class Taga:
 		logging.info(
 			'\n'.join(
 				[
-					'Logging in with token {self.token}'
-				,	'with server_id {self.channel_id}'
-				,	'with role_id {self.role_id}'
-				,	'with prefix {self.prefix}'
-				,	'and commands {self.commands}'
+					'Logging in with token "{self.token}"'
+				,	'Using server ID "{self.server_id}"'
+				,	'Using channel ID "{self.channel_id}"'
+				,	'Using role ID "{self.role_id}"'
+				,	'Listening for command prefix "{self.prefix}"'
+				,	'Listening for commands "{self.commands}"'
 				]
 			).format(self=self)
 		)

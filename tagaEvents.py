@@ -14,7 +14,7 @@ def import_events(client, prefix, commands, server_id, channel_id, role_id):
 			num = int(arg)
 			if num < 1: num = 1
 			if num > 9: num = 9
-		except Exception:
+		except:
 			num = 1
 
 		logging.info(
@@ -28,11 +28,15 @@ def import_events(client, prefix, commands, server_id, channel_id, role_id):
 
 	@client.command(name=commands['marking']['name'], aliases=commands['marking']['aliases'], pass_context=True)
 	async def mark(context):
-		server_match  = (context.message.guild.id   == server_id)
-		channel_match = (context.message.channel.id == channel_id)
-		role_exists   = (role_id in [x.id for x in context.message.guild.roles])
-		user_has_role = (role_id in [x.id for x in context.message.author.roles])
-		role_to_add   = discord.utils.get(context.message.guild.roles, id=role_id)
+		server_match  = (server_id  == context.message.guild.id)
+		channel_match = (channel_id == context.message.channel.id)
+
+		# https://stackoverflow.com/a/9371143
+		# https://docs.python.org/3/library/functions.html#any
+		role_exists   = any(role_id == role.id for role in context.message.guild.roles)
+		user_has_role = any(role_id == role.id for role in context.message.author.roles)
+
+		role_to_add = discord.utils.get(context.message.guild.roles, id=role_id)
 
 		if server_match and channel_match:
 			if role_exists:
